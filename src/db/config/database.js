@@ -1,4 +1,4 @@
-const Config = require('../../config/environment')
+const Config = require('../../config/environment.js')
 
 module.exports = {
   development: {

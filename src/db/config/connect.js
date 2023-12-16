@@ -1,8 +1,4 @@
-const { Sequelize } = require('sequelize')
-const Config = require('../../../src/config/environment')
+import Sequelize from 'sequelize'
+import Config from '../../../src/config/environment.js'
 
-const sequelize = new Sequelize(Config.database.development.uri)
-
-module.exports = {
-  sequelize,
-}
+export const sequelize = new Sequelize(Config.database.development.uri)

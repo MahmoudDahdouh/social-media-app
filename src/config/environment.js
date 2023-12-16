@@ -1,4 +1,5 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
 const requiredEnvVars = [
   // Server
@@ -42,4 +43,4 @@ const Config = {
   },
 }
 
-module.exports = Config
+export default Config

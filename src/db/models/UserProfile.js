@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../config/connect')
-const User = require('./User')
+import { Model, DataTypes } from 'sequelize'
+import { sequelize } from '../config/connect.js'
+import User from './User.js'
 class UserProfile extends Model {}
 UserProfile.init(
   {
@@ -34,4 +34,4 @@ UserProfile.init(
 User.hasOne(UserProfile)
 UserProfile.belongsTo(User)
 
-module.exports = UserProfile
+export default UserProfile

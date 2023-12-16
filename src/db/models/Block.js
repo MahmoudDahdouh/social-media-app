@@ -1,6 +1,7 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../config/connect')
-const User = require('./User')
+import { Model, DataTypes } from 'sequelize'
+import { sequelize } from '../config/connect.js'
+
+import User from './User.js'
 
 class Block extends Model {}
 Block.init(
@@ -23,4 +24,4 @@ Block.init(
 User.hasMany(Block, { as: 'blocks', foreignKey: 'user_id' })
 Block.belongsTo(User, { as: 'user', foreignKey: 'user_id' })
 
-module.exports = Block
+export default Block

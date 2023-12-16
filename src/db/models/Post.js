@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../config/connect')
-const User = require('./User')
+import { Model, DataTypes } from 'sequelize'
+import { sequelize } from '../config/connect.js'
+import User from './User.js'
 
 class Post extends Model {}
 Post.init(
@@ -24,4 +24,4 @@ Post.belongsTo(User, {
   as: 'user',
   foreignKey: 'user_id',
 })
-module.exports = Post
+export default Post

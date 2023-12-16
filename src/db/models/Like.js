@@ -1,7 +1,7 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../config/connect')
-const User = require('./User')
-const Post = require('./Post')
+import { Model, DataTypes } from 'sequelize'
+import { sequelize } from '../config/connect.js'
+import User from './User.js'
+import Post from './Post.js'
 class Like extends Model {}
 Like.init(
   {},
@@ -28,4 +28,4 @@ Like.belongsTo(Post, {
   foreignKey: 'post_id',
 })
 
-module.exports = Like
+export default Like
