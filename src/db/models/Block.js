@@ -17,6 +17,8 @@ Block.init(
   },
   {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
     modelName: 'blocks',
   }

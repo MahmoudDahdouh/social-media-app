@@ -22,6 +22,8 @@ User.init(
     sequelize,
     underscored: true,
     modelName: 'users',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   }
 )
 export default User
