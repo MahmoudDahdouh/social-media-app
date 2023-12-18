@@ -8,6 +8,12 @@ User.init(
       allowNull: false,
       unique: true,
     },
+    user_role: {
+      type: DataTypes.ENUM,
+      values: ['user', 'admin'],
+      allowNull: false,
+      defaultValue: 'user',
+    },
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
