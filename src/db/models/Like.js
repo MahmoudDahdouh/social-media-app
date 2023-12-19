@@ -4,7 +4,16 @@ import User from './User.js'
 import Post from './Post.js'
 class Like extends Model {}
 Like.init(
-  {},
+  {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    post_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
   {
     sequelize,
     createdAt: 'created_at',

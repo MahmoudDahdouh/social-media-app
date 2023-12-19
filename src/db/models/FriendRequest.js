@@ -18,6 +18,10 @@ FriendRequest.init(
       values: ['pending', 'accepted', 'rejected', 'canceled'],
       defaultValue: 'pending',
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,

@@ -17,10 +17,12 @@ UserProfile.init(
     },
     date_of_birth: {
       type: DataTypes.DATE,
-      allowNull: false,
     },
     country: {
       type: DataTypes.STRING,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
@@ -33,7 +35,7 @@ UserProfile.init(
   }
 )
 
-User.hasOne(UserProfile)
-UserProfile.belongsTo(User)
+User.hasOne(UserProfile, { as: 'user_profile', foreignKey: 'user_id' })
+UserProfile.belongsTo(User, { as: 'user', foreignKey: 'user_id' })
 
 export default UserProfile

@@ -9,6 +9,10 @@ Post.init(
       type: DataTypes.STRING(5000),
       allowNull: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,
