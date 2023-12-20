@@ -8,14 +8,14 @@ import UserFriend from '../models/UserFriend.js'
 import UserProfile from '../models/UserProfile.js'
 
 const sync = async () => {
-  await User.sync({ force: true })
-  await UserProfile.sync({ force: true })
-  await Post.sync({ force: true })
-  await Like.sync({ force: true })
-  await Comment.sync({ force: true })
-  await UserFriend.sync({ force: true })
-  await Block.sync({ force: true })
-  await FriendRequest.sync({ force: true })
+  await User.sync({ alter: true })
+  await UserProfile.sync({ alter: true })
+  await Post.sync({ alter: true })
+  await Like.sync({ alter: true })
+  await Comment.sync({ alter: true })
+  await UserFriend.sync({ alter: true })
+  await Block.sync({ alter: true })
+  await FriendRequest.sync({ alter: true })
   console.log('Database synced successfully !')
 }
 sync()
