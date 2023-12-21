@@ -10,7 +10,7 @@ import { sequelize } from '../db/config/connect.js'
  * POST
  * email, password
  */
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   const { email, password } = req.body
 
   // Check if the user is exist
@@ -19,18 +19,36 @@ export const login = async (req, res, next) => {
       email,
       user_role: 'user',
     },
+    include: [
+      {
+        model: UserProfile,
+        as: 'user_profile',
+        attributes: [
+          'first_name',
+          'last_name',
+          'bio',
+          'country',
+          'date_of_birth',
+        ],
+      },
+    ],
   })
   if (!user) {
     throw new CustomError(404, 'User is not found!')
   }
   // check the password
   const isSamePassword = await bcrypt.compare(password, user.password_hash)
-  if (isSamePassword) {
-    delete user.dataValues.password_hash
-    return res.json(user)
-  }
   // Password is wrong
-  throw new CustomError(401, 'Password is wrong!')
+  if (!isSamePassword) {
+    throw new CustomError(401, 'Password is wrong!')
+  }
+
+  const user_profile = user.dataValues.user_profile.dataValues
+  delete user.dataValues.user_profile.dataValues
+  user = { ...user.dataValues, ...user_profile }
+  delete user.password_hash
+
+  return res.json(user)
 }
 
 /**
@@ -99,6 +117,6 @@ export const signUp = async (req, res, next) => {
     delete user_profile.dataValues.created_at
     delete user_profile.dataValues.updated_at
 
-    res.json({ user: { ...user.dataValues, ...user_profile.dataValues } })
+    res.json(...user.dataValues, ...user_profile.dataValues)
   })
 }
