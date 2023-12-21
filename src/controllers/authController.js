@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
 import User from '../db/models/User.js'
+import UserProfile from '../db/models/UserProfile.js'
 
 import CustomError from '../utils/error/CustomError.js'
+import { sequelize } from '../db/config/connect.js'
 
 /**
  * login
@@ -19,7 +21,7 @@ export const login = async (req, res, next) => {
     },
   })
   if (!user) {
-    return next(new CustomError(404, 'User is not found!'))
+    throw new CustomError(404, 'User is not found!')
   }
   // check the password
   const isSamePassword = await bcrypt.compare(password, user.password_hash)
@@ -28,7 +30,7 @@ export const login = async (req, res, next) => {
     return res.json(user)
   }
   // Password is wrong
-  return next(new CustomError(401, 'Password is wrong!'))
+  throw new CustomError(401, 'Password is wrong!')
 }
 
 /**
@@ -36,4 +38,67 @@ export const login = async (req, res, next) => {
  * POST
  * first_name, last_name, email, password
  */
-export const signUp = async (req, res, next) => {}
+export const signUp = async (req, res, next) => {
+  const { first_name, last_name, username, email, password, date_of_birth } =
+    req.body
+  const password_hash = await bcrypt.hash(password, 10)
+  await sequelize.transaction(async (t) => {
+    // check if email is exist
+    const isEmailExist = await User.findOne(
+      {
+        where: {
+          email,
+        },
+      },
+      {
+        transaction: t,
+      }
+    )
+    if (isEmailExist) {
+      throw new CustomError(409, 'Email is already exist!')
+    }
+
+    // check if username is exist
+    const isUsernameExist = await User.findOne(
+      {
+        where: {
+          username,
+        },
+      },
+      {
+        transaction: t,
+      }
+    )
+    if (isUsernameExist) {
+      throw new CustomError(409, 'Username is already exist!')
+    }
+
+    // create user
+    const user = await User.create(
+      { username, email, password_hash },
+      {
+        transaction: t,
+      }
+    )
+    delete user.dataValues.password_hash
+
+    // create user profile
+    const user_profile = await UserProfile.create(
+      {
+        first_name,
+        last_name,
+        date_of_birth,
+        user_id: user.id,
+      },
+      {
+        transaction: t,
+      }
+    )
+    delete user_profile.dataValues.id
+    delete user_profile.dataValues.user_id
+    delete user_profile.dataValues.created_at
+    delete user_profile.dataValues.updated_at
+
+    res.json({ user: { ...user.dataValues, ...user_profile.dataValues } })
+  })
+}
