@@ -5,21 +5,24 @@ class UserProfile extends Model {}
 UserProfile.init(
   {
     first_name: {
-      type: DataTypes.STRING(128),
+      type: DataTypes.STRING(64),
       allowNull: false,
     },
     last_name: {
-      type: DataTypes.STRING(128),
+      type: DataTypes.STRING(64),
       allowNull: false,
     },
     bio: {
       type: DataTypes.STRING(512),
+      defaultValue: '',
     },
     date_of_birth: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
     country: {
       type: DataTypes.STRING,
+      defaultValue: '',
     },
     user_id: {
       type: DataTypes.INTEGER,
