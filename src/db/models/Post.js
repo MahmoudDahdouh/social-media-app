@@ -5,7 +5,7 @@ import User from './User.js'
 class Post extends Model {}
 Post.init(
   {
-    body: {
+    content: {
       type: DataTypes.STRING(5000),
       allowNull: false,
     },
