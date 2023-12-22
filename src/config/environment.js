@@ -5,7 +5,8 @@ const requiredEnvVars = [
   // Server
   'PORT',
   'NODE_ENV',
-  'JWT_SECRET',
+  'JWT_ACCESS_SECRET_KEY',
+  'JWT_REFRESH_SECRET_KEY',
   // Database - development
   'DEV_DB_USERNAME',
   'DEV_DB_PASSWORD',
@@ -28,7 +29,8 @@ const Config = {
     env: process.env.NODE_ENV || 'development',
   },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    access_secret_key: process.env.JWT_ACCESS_SECRET_KEY,
+    refresh_secret_key: process.env.JWT_REFRESH_SECRET_KEY,
   },
   database: {
     development: {
