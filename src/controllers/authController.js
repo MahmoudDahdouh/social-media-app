@@ -4,6 +4,10 @@ import UserProfile from '../db/models/UserProfile.js'
 
 import CustomError from '../utils/error/CustomError.js'
 import { sequelize } from '../db/config/connect.js'
+import StatusResponse from '../utils/StatusResponse.js'
+import jwt from 'jsonwebtoken'
+import Config from '../config/environment.js'
+import { generateToken } from '../utils/jwt.js'
 
 /**
  * login
@@ -48,7 +52,18 @@ export const login = async (req, res) => {
   user = { ...user.dataValues, ...user_profile }
   delete user.password_hash
 
-  return res.json(user)
+  const access_token = generateToken(
+    { id: user.id, role: user.user_role, email: user.email },
+    Config.jwt.access_secret_key,
+    {
+      expiresIn: '15m',
+    }
+  )
+  const refresh_token = generateToken({ user }, Config.jwt.refresh_secret_key, {
+    expiresIn: '60d',
+  })
+
+  return res.json({ ...StatusResponse(), user, access_token, refresh_token })
 }
 
 /**
@@ -117,6 +132,26 @@ export const signUp = async (req, res, next) => {
     delete user_profile.dataValues.created_at
     delete user_profile.dataValues.updated_at
 
-    res.json(...user.dataValues, ...user_profile.dataValues)
+    const access_token = generateToken(
+      { id: user.id, role: user.user_role, email: user.email },
+      Config.jwt.access_secret_key,
+      {
+        expiresIn: '15m',
+      }
+    )
+    const refresh_token = generateToken(
+      { user },
+      Config.jwt.refresh_secret_key,
+      {
+        expiresIn: '60d',
+      }
+    )
+
+    res.json({
+      ...StatusResponse(),
+      user: { ...user.dataValues, ...user_profile.dataValues },
+      access_token,
+      refresh_token,
+    })
   })
 }
