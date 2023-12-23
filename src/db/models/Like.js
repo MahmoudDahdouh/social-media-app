@@ -20,6 +20,12 @@ Like.init(
     updatedAt: 'updated_at',
     underscored: true,
     modelName: 'likes',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'post_id'],
+      },
+    ],
   }
 )
 User.hasMany(Like, {
