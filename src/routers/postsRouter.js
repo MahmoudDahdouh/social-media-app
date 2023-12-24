@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
   createPost,
   deletePost,
+  getPost,
   updatePost,
 } from '../controllers/postsController.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
@@ -34,5 +35,7 @@ router.delete(
   [checkToken, validate(deletePostSchema)],
   asyncHandler(deletePost)
 )
+// delete Post
+router.get('/:id', asyncHandler(getPost))
 
 export default router

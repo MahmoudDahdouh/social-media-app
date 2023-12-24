@@ -1,5 +1,7 @@
 import Post from '../db/models/Post.js'
+import User from '../db/models/User.js'
 import StatusResponse from '../utils/StatusResponse.js'
+import CustomError from '../utils/error/CustomError.js'
 
 /**
  * create new Post
@@ -77,4 +79,28 @@ export const deletePost = async (req, res) => {
   return res
     .status(200)
     .json({ ...StatusResponse(200, 'The post deleted successfully!') })
+}
+
+/**
+ * get Post
+ * GET
+ * @param id
+ */
+export const getPost = async (req, res) => {
+  const { id } = req.params
+
+  const post = await Post.findOne({
+    where: { id },
+    include: {
+      model: User,
+      as: 'user',
+      attributes: {
+        exclude: ['password_hash', 'refresh_token', 'user_role'],
+      },
+    },
+  })
+  if (!post) {
+    throw new CustomError(404, 'The post is not found!')
+  }
+  res.status(200).json({ post })
 }
