@@ -45,3 +45,36 @@ export const updatePost = async (req, res) => {
     .status(200)
     .json({ ...StatusResponse(200, 'The post updated successfully!') })
 }
+
+/**
+ * delete Post
+ * DELETE
+ */
+export const deletePost = async (req, res) => {
+  const { id, user } = req.body
+
+  const post = await Post.update(
+    {
+      is_deleted: true,
+    },
+    {
+      where: {
+        id,
+        user_id: user.id,
+      },
+    }
+  )
+
+  if (post[0] === 0) {
+    return res.status(403).json({
+      ...StatusResponse(
+        403,
+        'Your are not allowed to delete this post!',
+        false
+      ),
+    })
+  }
+  return res
+    .status(200)
+    .json({ ...StatusResponse(200, 'The post deleted successfully!') })
+}
