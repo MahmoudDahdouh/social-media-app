@@ -13,6 +13,10 @@ Post.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    is_deleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,
