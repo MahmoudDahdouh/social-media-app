@@ -54,7 +54,7 @@ export const signUpSchema = Yup.object({
       .required(),
     password: Yup.string().label('Password').trim().min(6).max(128).required(),
     date_of_birth: Yup.date()
-      // .isValid('Enter a valid date!')
+      .typeError('Enter a valid date!')
       .label('Date of birth')
       .min(new Date(0), 'Date of birth field must be later than 1970')
       .max(
