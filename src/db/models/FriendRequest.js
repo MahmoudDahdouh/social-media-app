@@ -5,10 +5,6 @@ import User from './User.js'
 class FriendRequest extends Model {}
 FriendRequest.init(
   {
-    source_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     target_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,6 +25,15 @@ FriendRequest.init(
     updatedAt: 'updated_at',
     underscored: true,
     modelName: 'friend_requests',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'target_id', 'status'],
+        where: {
+          status: ['pending', 'accepted'],
+        },
+      },
+    ],
   }
 )
 
