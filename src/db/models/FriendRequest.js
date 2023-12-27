@@ -18,6 +18,10 @@ FriendRequest.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    is_done: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,
@@ -28,9 +32,9 @@ FriendRequest.init(
     indexes: [
       {
         unique: true,
-        fields: ['user_id', 'target_id', 'status'],
+        fields: ['user_id', 'target_id', 'is_done'],
         where: {
-          status: ['pending', 'accepted'],
+          is_done: false,
         },
       },
     ],
@@ -44,6 +48,10 @@ User.hasMany(FriendRequest, {
 FriendRequest.belongsTo(User, {
   as: 'user',
   foreignKey: 'user_id',
+})
+FriendRequest.belongsTo(User, {
+  as: 'friend',
+  foreignKey: 'target_id',
 })
 
 export default FriendRequest

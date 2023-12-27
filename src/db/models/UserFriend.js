@@ -30,5 +30,9 @@ UserFriend.belongsTo(User, {
   as: 'user',
   foreignKey: 'user_id',
 })
+UserFriend.belongsTo(User, {
+  as: 'friend',
+  foreignKey: 'friend_id',
+})
 
 export default UserFriend
