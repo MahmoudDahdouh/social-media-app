@@ -18,4 +18,10 @@ router.get(
   asyncHandler(getAllFollowers)
 )
 
+// get all following
+router.get(
+  '/following',
+  [checkToken, validate(pagination)],
+  asyncHandler(getAllFollowings)
+)
 export default router
