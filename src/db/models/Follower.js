@@ -20,6 +20,12 @@ Follower.init(
     updatedAt: 'updated_at',
     underscored: true,
     modelName: 'followers',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'follower_id'],
+      },
+    ],
   }
 )
 User.hasMany(Follower, {
@@ -27,11 +33,11 @@ User.hasMany(Follower, {
   foreignKey: 'user_id',
 })
 Follower.belongsTo(User, {
-  as: 'profile',
+  as: 'user_profile',
   foreignKey: 'user_id',
 })
 Follower.belongsTo(User, {
-  as: 'profile',
+  as: 'follower_user',
   foreignKey: 'follower_id',
 })
 
