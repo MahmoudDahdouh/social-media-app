@@ -7,6 +7,6 @@ const router = Router()
 
 router.use('/auth', authRouter)
 router.use('/posts', postsRouter)
-router.use('/', followerRouter)
+router.use('/user', followerRouter)
 
 export default router

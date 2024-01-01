@@ -10,7 +10,7 @@ import {
 } from '../controllers/followerController.js'
 import { validate } from '../middlewares/validate.js'
 import { pagination } from '../schemas/general.js'
-import { followUserSchema } from '../schemas/follower.js'
+import { followerIdSchema } from '../schemas/follower.js'
 
 const router = Router()
 
@@ -31,14 +31,14 @@ router.get(
 // follow a user
 router.post(
   '/follow',
-  [checkToken, validate(followUserSchema)],
+  [checkToken, validate(followerIdSchema)],
   asyncHandler(followUser)
 )
 
 // unfollow a user
 router.post(
   '/unfollow',
-  [checkToken, validate(followUserSchema)],
+  [checkToken, validate(followerIdSchema)],
   asyncHandler(unfollowUser)
 )
 export default router
