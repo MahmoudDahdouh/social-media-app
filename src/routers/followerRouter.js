@@ -35,4 +35,10 @@ router.post(
   asyncHandler(followUser)
 )
 
+// unfollow a user
+router.post(
+  '/unfollow',
+  [checkToken, validate(followUserSchema)],
+  asyncHandler(unfollowUser)
+)
 export default router
