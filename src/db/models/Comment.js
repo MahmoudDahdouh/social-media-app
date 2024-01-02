@@ -8,7 +8,7 @@ class Comment extends Model {}
 Comment.init(
   {
     body: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     user_id: {
