@@ -6,3 +6,13 @@ export const addCommentSchema = Yup.object({
     post_id: Yup.number().label('Post id').integer().positive().required(),
   }),
 })
+
+export const deleteCommentSchema = Yup.object({
+  body: Yup.object({
+    comment_id: Yup.number()
+      .label('Comment id')
+      .integer()
+      .positive()
+      .required(),
+  }),
+})

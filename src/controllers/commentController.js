@@ -1,5 +1,6 @@
 import Comment from '../db/models/Comment.js'
 import StatusResponse from '../utils/StatusResponse.js'
+import CustomError from '../utils/error/CustomError.js'
 
 /**
  * add comment
@@ -13,5 +14,24 @@ export const addComment = async (req, res) => {
     user_id: user.id,
     post_id: post_id,
   })
+  res.json({ ...StatusResponse(), comment })
+}
+
+/**
+ * delete comment
+ * POST
+ * @body comment_id
+ */
+export const deleteComment = async (req, res) => {
+  const { user, comment_id } = req.body
+  const comment = await Comment.destroy({
+    where: {
+      id: comment_id,
+      user_id: user.id,
+    },
+  })
+  if (!comment) {
+    throw new CustomError(404, 'Comment is not found!')
+  }
   res.json({ ...StatusResponse(), comment })
 }
