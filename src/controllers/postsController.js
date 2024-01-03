@@ -1,4 +1,5 @@
 import { sequelize } from '../db/config/connect.js'
+import Comment from '../db/models/Comment.js'
 import Post from '../db/models/Post.js'
 import User from '../db/models/User.js'
 import StatusResponse from '../utils/StatusResponse.js'
@@ -138,4 +139,18 @@ export const getPost = async (req, res) => {
     throw new CustomError(404, 'The post is not found!')
   }
   res.status(200).json({ post })
+}
+
+/**
+ * get all post's comments
+ * GET
+ */
+export const getPostComments = async (req, res) => {
+  const { id } = req.params
+  const { count, rows: comments } = await Comment.findAndCountAll({
+    where: {
+      post_id: id,
+    },
+  })
+  res.json({ count, comments })
 }

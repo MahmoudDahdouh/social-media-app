@@ -3,6 +3,7 @@ import {
   createPost,
   deletePost,
   getPost,
+  getPostComments,
   updatePost,
 } from '../controllers/postsController.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
@@ -10,7 +11,8 @@ import { checkToken } from '../middlewares/auth.js'
 import { validate } from '../middlewares/validate.js'
 import {
   createPostSchema,
-  deletePostSchema,
+  postIdParamsSchema,
+  postIdSchema,
   updatePostSchema,
 } from '../schemas/post.js'
 
@@ -32,10 +34,17 @@ router.patch(
 // delete Post
 router.delete(
   '/',
-  [checkToken, validate(deletePostSchema)],
+  [checkToken, validate(postIdSchema)],
   asyncHandler(deletePost)
 )
-// delete Post
-router.get('/:id', asyncHandler(getPost))
+// get Post by id
+router.get('/:id', [validate(postIdParamsSchema)], asyncHandler(getPost))
+
+// Post's comments
+router.get(
+  '/:id/comments',
+  [validate(postIdParamsSchema)],
+  asyncHandler(getPostComments)
+)
 
 export default router

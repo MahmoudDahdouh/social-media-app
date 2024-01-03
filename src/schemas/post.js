@@ -17,8 +17,16 @@ export const updatePostSchema = Yup.object({
   }),
 })
 
-export const deletePostSchema = Yup.object({
+export const postIdSchema = Yup.object({
   body: Yup.object({
+    id: Yup.number()
+      .label('Post id')
+      .integer('Post id must be an integer number!')
+      .required(),
+  }),
+})
+export const postIdParamsSchema = Yup.object({
+  params: Yup.object({
     id: Yup.number()
       .label('Post id')
       .integer('Post id must be an integer number!')
