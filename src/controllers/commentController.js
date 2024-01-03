@@ -35,3 +35,27 @@ export const deleteComment = async (req, res) => {
   }
   res.json({ ...StatusResponse(), comment })
 }
+
+/**
+ * update comment
+ * PATCH
+ * @body comment_id,new_comment
+ */
+export const updateComment = async (req, res) => {
+  const { user, comment_id, new_comment } = req.body
+  const comment = await Comment.update(
+    {
+      body: new_comment,
+    },
+    {
+      where: {
+        id: comment_id,
+        user_id: user.id,
+      },
+    }
+  )
+  if (!comment[0]) {
+    throw new CustomError(404, 'Comment is not found!')
+  }
+  res.json({ ...StatusResponse(200, 'Comment updated!') })
+}

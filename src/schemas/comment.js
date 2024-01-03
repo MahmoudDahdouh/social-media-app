@@ -16,3 +16,13 @@ export const deleteCommentSchema = Yup.object({
       .required(),
   }),
 })
+export const updateCommentSchema = Yup.object({
+  body: Yup.object({
+    comment_id: Yup.number()
+      .label('Comment id')
+      .integer()
+      .positive()
+      .required(),
+    new_comment: Yup.string().label('New comment').trim().max(255).required(),
+  }),
+})
