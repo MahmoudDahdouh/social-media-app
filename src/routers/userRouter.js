@@ -1,9 +1,15 @@
 import { Router } from 'express'
-import { getUserProfile } from '../controllers/userController.js'
+import { asyncHandler } from '../utils/asyncHandler.js'
+
+import {
+  getUserProfile,
+  getUserProfileByUsername,
+} from '../controllers/userController.js'
 import { checkToken } from '../middlewares/auth.js'
 
 const router = Router()
 
-router.get('/', [checkToken], getUserProfile)
+router.get('/', [checkToken], asyncHandler(getUserProfile))
+router.get('/:username', asyncHandler(getUserProfileByUsername))
 
 export default router
