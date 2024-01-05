@@ -4,6 +4,7 @@ import {
   deletePost,
   getPost,
   getPostComments,
+  getPostLikes,
   updatePost,
 } from '../controllers/postsController.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
@@ -45,6 +46,12 @@ router.get(
   '/:id/comments',
   [validate(postIdParamsSchema)],
   asyncHandler(getPostComments)
+)
+// Post's likes
+router.get(
+  '/:id/likes',
+  [validate(postIdParamsSchema)],
+  asyncHandler(getPostLikes)
 )
 
 export default router
